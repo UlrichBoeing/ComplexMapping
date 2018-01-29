@@ -142,8 +142,6 @@ abstract public class Map {
 		input.set(inputStart, inputEnd);
 		output.set(outputStart, outputEnd);
 
-		System.out.println(input.toString());
-
 		return this;
 	};
 
@@ -200,4 +198,15 @@ abstract public class Map {
 		long end = System.nanoTime();
 		return end - start;
 	}
+	
+	@Override
+	public String toString() {
+		String str = " input: " + input.toString() + "\n";
+		str += " output: " + output.toString() + "\n";
+		if (targetMap != null) {
+			str += "targetMap " + targetMap.toString();
+		}
+		return str;
+	}
+	
 }

@@ -66,10 +66,27 @@ class Graph extends Map {
 				max = node;
 			}
 		}
-		System.out.println("Graph min-max: " + min + " - " + max);
 	}
 	
+	@Override
+	public String toString() {
+		String str = "Graph:\n";
+		str += getNodesAsString(5);
+		str += " resolution: " + resolution + " straight lines\n";
+		str +=  " min-max: " + min + " - " + max + "\n";
+		str += super.toString();
+		return str;
+	}
 	
+	private String getNodesAsString(int numNodes) {
+		String str = "";
+		float step = (float)(resolution + 1) / (float)(numNodes - 1); 
+		for (int i = 0; i < numNodes; i++) {
+			int index = (int) (i * step);
+			str += " node[" + index + "]:\t" + nodes[index] + "\n"; 
+		}
+		return str;
+	}
 	
 	
 }

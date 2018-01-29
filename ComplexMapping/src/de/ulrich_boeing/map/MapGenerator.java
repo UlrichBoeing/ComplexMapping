@@ -28,7 +28,6 @@ public class MapGenerator {
 				defString += getRandomSeparator();
 			}
 		}
-		System.out.println(defString);
 		return defString;
 	}
 	

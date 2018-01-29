@@ -109,8 +109,7 @@ class ComplexMap extends Map {
 	public String toString() {
 		String str = "ComplexMap: '" + getRealDefString() + "' \n";
 		str += " sumWeight = " + sumWeight + "\n";
-		str += " input: " + input.toString() + "\n";
-		str += " output: " + output.toString() + "\n";
+		str += super.toString();
 		return str;
 	}
 

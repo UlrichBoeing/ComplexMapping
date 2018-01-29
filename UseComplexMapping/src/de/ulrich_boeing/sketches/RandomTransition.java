@@ -24,7 +24,7 @@ public class RandomTransition extends PApplet {
 	public void setup() {
 		map = getRandomMap();
 		
-		cycleMap = Map.create("narrow 0.0, 0.6 > exp 4").setRange(0, cycleLength, 0, 1);
+		cycleMap = Map.create("narrow 0.0, 0.6 > exp 4", Precision.VeryHigh).setRange(0, cycleLength, 0, 1);
 	}
 
 	@Override
@@ -70,7 +70,9 @@ public class RandomTransition extends PApplet {
 		start = end;
 		end = mapGenerator.getRandomDefString();
 		Map randomMap = Map.create(start, Precision.High)
-				.setRange(1, width - 1, height - 20, 20).setTargetMap(end);
+				.setRange(1, width - 1, height - 20, 20).setTargetMap(end, Precision.Highest);
+		
+		System.out.println(randomMap.toString());
 
 		// System.out.println(randomMap.getDeviation(10000));
 		// randomMap.getPerformance(1000000);
