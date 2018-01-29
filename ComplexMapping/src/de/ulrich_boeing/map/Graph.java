@@ -68,4 +68,8 @@ class Graph extends Map {
 		}
 		System.out.println("Graph min-max: " + min + " - " + max);
 	}
+	
+	
+	
+	
 }
