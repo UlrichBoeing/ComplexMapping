@@ -1,14 +1,15 @@
 package de.ulrich_boeing.map;
 
 /**
- * The class ComplexMap is created by a string with one or more (mathematical) operations.<br> 
- * It maps input to output values according to this string. 
+ * The class ComplexMap is created by a string with one or more (mathematical)
+ * operations.<br>
+ * It maps input to output values according to this string.
  * 
  * @author Ulrich Böing
  *
  */
 
-class ComplexMap extends Map{
+class ComplexMap extends Map {
 	Mapping[] mappings;
 	float sumWeight = 0;
 
@@ -27,25 +28,22 @@ class ComplexMap extends Map{
 			mappings[i] = new Mapping(arr[i]);
 			sumWeight += mappings[i].weight;
 		}
-		System.out.println("ComplexMap: " + toString());
-		System.out.println("sumWeight " + sumWeight);
 	}
 
 	public float get(float x) {
- 		x = input.normalize(x);
+		x = input.normalize(x);
 		float sum = 0;
 		for (Mapping mapping : mappings) {
 			sum += mapping.map(x);
 		}
 		return output.deNormalize(sum / sumWeight);
 	}
-	
-	
+
 	boolean isFast() {
 		int numSteps = numSteps();
-		return numSteps <= 3 && numSteps == numFastSteps(); 
+		return numSteps <= 3 && numSteps == numFastSteps();
 	}
-	
+
 	int numSteps() {
 		int numSteps = 0;
 		for (Mapping mapping : mappings) {
@@ -53,11 +51,11 @@ class ComplexMap extends Map{
 		}
 		return numSteps;
 	}
-	
+
 	int numFastSteps() {
 		int numFastSteps = 0;
 		for (Mapping mapping : mappings) {
-			for (Step step: mapping.steps) {
+			for (Step step : mapping.steps) {
 				if (step.type.fast) {
 					numFastSteps++;
 				}
@@ -65,7 +63,7 @@ class ComplexMap extends Map{
 		}
 		return numFastSteps;
 	}
-	
+
 	/**
 	 * A static method to prepare a map-defining string.
 	 * 
@@ -106,9 +104,17 @@ class ComplexMap extends Map{
 		}
 		return str;
 	}
-	
+
 	@Override
 	public String toString() {
+		String str = "ComplexMap: '" + getRealDefString() + "' \n";
+		str += " sumWeight = " + sumWeight + "\n";
+		str += " input: " + input.toString() + "\n";
+		str += " output: " + output.toString() + "\n";
+		return str;
+	}
+
+	public String getRealDefString() {
 		String str = "";
 		for (int i = 0; i < mappings.length; i++) {
 			str += mappings[i].toString();

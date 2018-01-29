@@ -15,8 +15,6 @@ abstract public class Map {
 	private Map targetMap;
 	Range input, output, ratioRange;
 
-	static int defaultResolution = 200;
-
 	/**
 	 * The Map constructor is only called by the ComplexMap and Graph
 	 * constructor.<br>

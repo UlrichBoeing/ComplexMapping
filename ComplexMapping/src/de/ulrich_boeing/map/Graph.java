@@ -5,6 +5,7 @@ class Graph extends Map {
 	private float[] nodes;
 	private int resolution;
 	float ratioResolutionToInput;
+	static int defaultResolution = 200;
 
 	private float min, max;
 
@@ -58,7 +59,6 @@ class Graph extends Map {
 		min = 1;
 		max = 0;
 		for (float node : nodes) {
-			// System.out.println(node);
 			if (node < min) {
 				min = node;
 			}

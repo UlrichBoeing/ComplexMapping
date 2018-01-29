@@ -74,6 +74,6 @@ public class Range {
 
 	@Override
 	public String toString() {
-		return "Range from '" + start + "' to '" + end + "'";
+		return "range from '" + start + "' to '" + end + "'";
 	}
 }
