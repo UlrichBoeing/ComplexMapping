@@ -6,7 +6,7 @@ import de.ulrich_boeing.map.Precision;
 import processing.core.PApplet;
 
 public class RandomTransition extends PApplet {
-	int cycleLength = 50;
+	int cycleLength = 90;
 	Map map, colorMap, cycleMap;
 	String start, end;
 	MapGenerator mapGenerator;
@@ -33,7 +33,7 @@ public class RandomTransition extends PApplet {
 		
 		float normCyclePos = getNormCyclePos();
 		for (int i = 0; i < height; i++) {
-			stroke(0, 0, map.get(i, normCyclePos) / 7);
+			stroke(32, 0, map.get(i, normCyclePos) / 7);
 			line(0, i, width, i);
 		}
 
@@ -41,6 +41,12 @@ public class RandomTransition extends PApplet {
 		stroke(255);
 		strokeWeight(1.5f);
 		drawGraph(normCyclePos);
+		// Show DefString
+		textSize(16);
+		fill(255, 255, 255, normCyclePos * 155 + 100);
+		textAlign(CENTER);
+		text(end, width / 2, height -20);
+		
 	}
 
 	private void drawGraph(float normCyclePos) {
@@ -70,7 +76,7 @@ public class RandomTransition extends PApplet {
 		start = end;
 		end = mapGenerator.getRandomDefString();
 		Map randomMap = Map.create(start, Precision.High)
-				.setRange(1, width - 1, height - 20, 20).setTargetMap(end, Precision.Highest);
+				.setRange(1, width - 1, height - 50, 15).setTargetMap(end, Precision.Highest);
 		
 		System.out.println(randomMap.toString());
 
