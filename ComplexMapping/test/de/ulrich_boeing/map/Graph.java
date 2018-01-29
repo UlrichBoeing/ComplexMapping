@@ -1,5 +1,6 @@
 package de.ulrich_boeing.map;
 
+// TODO: if .setRange() is not called values are wrong
 class Graph extends Map {
 
 	private float[] nodes;
@@ -10,12 +11,12 @@ class Graph extends Map {
 
 	Graph(String str, int resolution) {
 		this(new ComplexMap(str), resolution);
-//		ComplexMap map = new ComplexMap(str);
 	}
 	
 	Graph(ComplexMap complexMap, int resolution) {
 		super();
 		build(complexMap, resolution);
+		setRange(complexMap.input.getStart(), complexMap.input.getEnd(), complexMap.output.getStart(), complexMap.output.getEnd());
 	}
 
 	public Map setRange(float newInputStart, float newInputEnd, float newOutputStart, float newOutputEnd) {

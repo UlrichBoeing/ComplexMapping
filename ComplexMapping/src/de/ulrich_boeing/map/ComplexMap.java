@@ -8,7 +8,7 @@ package de.ulrich_boeing.map;
  *
  */
 
-public class ComplexMap extends Map{
+class ComplexMap extends Map{
 	Mapping[] mappings;
 	float sumWeight = 0;
 
