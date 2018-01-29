@@ -1,6 +1,5 @@
 package de.ulrich_boeing.map;
 
-// TODO: if .setRange() is not called values are wrong
 class Graph extends Map {
 
 	private float[] nodes;
