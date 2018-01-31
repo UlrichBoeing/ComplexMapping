@@ -1,6 +1,6 @@
 package de.ulrich_boeing.sketches;
 
-import de.ulrich_boeing.map.Map;
+import de.ulrich_boeing.map.*;
 import de.ulrich_boeing.map.MapGenerator;
 import de.ulrich_boeing.map.Precision;
 import processing.core.PApplet;
@@ -22,6 +22,8 @@ public class RandomTransition extends PApplet {
 
 	@Override
 	public void setup() {
+		Map rangeMap = Map.create("x").setRange(10, 0, 0, 100);
+		System.out.println(rangeMap.get(-11));
 		map = getRandomMap();
 		
 		cycleMap = Map.create("narrow 0.0, 0.5 > exp 3", Precision.VeryHigh).setRange(0, cycleLength, 0, 1);
@@ -37,13 +39,17 @@ public class RandomTransition extends PApplet {
 			line(0, i, width, i);
 		}
 
-		stroke(255, 0, 255, 18);
+		stroke(255, 0, 255, 14);
 		fillGraph(normCyclePos);
-		noFill();
-		stroke(255, 100);
-		strokeWeight(1f);
+		 noFill();
+		stroke(255, 30);
+		strokeWeight(1.5f);
 		drawGraph(normCyclePos);
 		// Show DefString
+//		textSize(64);
+//		fill(255, 255, 255, normCyclePos * 100 + 55);
+//		textAlign(CENTER);
+//		text(end, width / 2, height / 2);
 		textSize(16);
 		fill(255, 255, 255, normCyclePos * 200 + 55);
 		textAlign(CENTER);
@@ -83,10 +89,10 @@ public class RandomTransition extends PApplet {
 		}
 		start = end;
 		end = mapGenerator.getRandomDefString();
-		Map randomMap = Map.create(start, Precision.High)
-				.setRange(1, width - 1, height - 50, 15).setTargetMap(end, Precision.High);
+		Map randomMap = Map.create(start, Precision.Highest)
+				.setRange(-300, -400, height - 50, 15).setTargetMap(end, Precision.Highest);
 		
-		System.out.println(randomMap.toString());
+//		System.out.println(randomMap.toString());
 
 		// System.out.println(randomMap.getDeviation(10000));
 		// randomMap.getPerformance(1000000);

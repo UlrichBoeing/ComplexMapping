@@ -11,7 +11,7 @@ public class Range {
 
 	public Range(float start, float end) {
 		set(start, end);
-//		onExceedRange = ErrorAction.ErrorMsg;
+		// onExceedRange = ErrorAction.ErrorMsg;
 	}
 
 	public void set(float start, float end) {
@@ -25,14 +25,18 @@ public class Range {
 	public boolean equal(float start, float end) {
 		return (this.start == start && this.end == end);
 	}
-	
+
 	float restrictToRange(float x) {
 		if (x < min) {
 			errorHandling(x);
-			x = min;
+			int n = (int) ((min - x) / Math.abs(range)) + 1;
+			x += n * Math.abs(range);
+//			 x = min;
 		} else if (x > max) {
 			errorHandling(x);
-			x = max;
+			int n = (int) ((x - max) / Math.abs(range)) + 1;
+			x -= n * Math.abs(range);
+//			 x = max;
 		}
 		return x;
 	}
@@ -43,7 +47,7 @@ public class Range {
 	}
 
 	public float deNormalize(float x) {
-		x =  start + x * range;
+		x = start + x * range;
 		return restrictToRange(x);
 	}
 
