@@ -89,12 +89,13 @@ public class RandomTransition extends PApplet {
 		}
 		start = end;
 		end = mapGenerator.getRandomDefString();
-		Map randomMap = Map.create(start, Precision.High).setRange(300, width, height - 50, 15).setTargetMap(end, Precision.High);
+		Map randomMap = Map.create(start, Precision.High).setRange(0, width, height - 50, 15).setTargetMap(end, Precision.High);
 
 		// System.out.println(randomMap.toString());
 
 		// System.out.println(randomMap.getDeviation(10000));
-		// randomMap.getPerformance(1000000);
+		System.out.println("Performance new Graph:"); 
+		randomMap.getPerformance(1000000);
 
 		return randomMap;
 	}
