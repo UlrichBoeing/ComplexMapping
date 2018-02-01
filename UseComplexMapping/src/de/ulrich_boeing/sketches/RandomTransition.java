@@ -90,7 +90,7 @@ public class RandomTransition extends PApplet {
 		start = end;
 		end = mapGenerator.getRandomDefString();
 		Map randomMap = Map.create(start, Precision.Highest)
-				.setRange(-300, -400, height - 50, 15).setTargetMap(end, Precision.Highest);
+				.setRange(0, width, height - 50, 15).setTargetMap(end, Precision.Highest);
 		
 //		System.out.println(randomMap.toString());
 
