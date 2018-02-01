@@ -26,15 +26,21 @@ abstract public class Map {
 		ratioRange = new Range(0, 1);
 	}
 
+	public float get(float x) {
+		x = input.normalize(x);
+		return output.deNormalize(getNorm(x));
+	}
+
 	/**
 	 * Get the mapped value for x.<br>
+	 * Input and output is normalized.
 	 * (An abstract method overwritten in ComplexMap and Graph.)
 	 * 
 	 * @param x
 	 *            The value to map.
 	 * @return The mapped value.
 	 */
-	public abstract float get(float x);
+	abstract float getNorm(float x);
 
 	/**
 	 * Get the mapped value for x.
@@ -116,7 +122,7 @@ abstract public class Map {
 	 */
 	public Map setTargetMap(String str) {
 		targetMap = Map.create(str);
-		targetMap.setRange(input.getStart(), input.getEnd(), output.getStart(), output.getEnd());
+		targetMap.setRange(input, output);
 		return this;
 	}
 
@@ -131,13 +137,19 @@ abstract public class Map {
 	 */
 	public Map setTargetMap(String str, Precision precision) {
 		targetMap = Map.create(str, precision);
-		targetMap.setRange(input.getStart(), input.getEnd(), output.getStart(), output.getEnd());
+		targetMap.setRange(input, output);
 		return this;
 	}
 
+	private Map setRange(Range input, Range output) {
+		this.input = input;
+		this.output = output;
+		return this;
+	}
+	
 	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd) {
-		if (targetMap != null)
-			targetMap.setRange(inputStart, inputEnd, outputStart, outputEnd);
+//		if (targetMap != null)
+//			targetMap.setRange(inputStart, inputEnd, outputStart, outputEnd);
 
 		input.set(inputStart, inputEnd);
 		output.set(outputStart, outputEnd);

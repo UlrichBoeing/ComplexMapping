@@ -30,13 +30,13 @@ class ComplexMap extends Map {
 		}
 	}
 
-	public float get(float x) {
-		x = input.normalize(x);
+	float getNorm(float x) {
 		float sum = 0;
 		for (Mapping mapping : mappings) {
 			sum += mapping.map(x);
 		}
-		return output.deNormalize(sum / sumWeight);
+		return sum / sumWeight;
+		
 	}
 
 	boolean isFast() {

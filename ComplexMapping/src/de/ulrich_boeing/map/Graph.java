@@ -4,7 +4,7 @@ class Graph extends Map {
 
 	private float[] nodes;
 	private int resolution;
-	float ratioResolutionToInput;
+	// float ratioResolutionToInput;
 	static int defaultResolution = 200;
 
 	private float min, max;
@@ -12,33 +12,38 @@ class Graph extends Map {
 	Graph(String str, int resolution) {
 		this(new ComplexMap(str), resolution);
 	}
-	
+
 	Graph(ComplexMap complexMap, int resolution) {
 		super();
 		build(complexMap, resolution);
-		setRange(complexMap.input.getStart(), complexMap.input.getEnd(), complexMap.output.getStart(), complexMap.output.getEnd());
+		// setRange(complexMap.input.getStart(), complexMap.input.getEnd(),
+		// complexMap.output.getStart(), complexMap.output.getEnd());
 	}
 
-	public Map setRange(float newInputStart, float newInputEnd, float newOutputStart, float newOutputEnd) {
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = output.normalize(nodes[i]);
-		}
+	// public Map setRange(float newInputStart, float newInputEnd, float
+	// newOutputStart, float newOutputEnd) {
+	// for (int i = 0; i < nodes.length; i++) {
+	// nodes[i] = output.normalize(nodes[i]);
+	// }
+	//
+	// super.setRange(newInputStart, newInputEnd, newOutputStart, newOutputEnd);
+	// ratioResolutionToInput = resolution / (newInputEnd - newInputStart);
+	//
+	// for (int i = 0; i < nodes.length; i++) {
+	// nodes[i] = output.deNormalize(nodes[i]);
+	// }
+	// return this;
+	// }
 
-		super.setRange(newInputStart, newInputEnd, newOutputStart, newOutputEnd);
-		ratioResolutionToInput = resolution / (newInputEnd - newInputStart);
-
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = output.deNormalize(nodes[i]);
-		}
-		return this;
-	}
-
-	public float get(float x) {
-		x = input.restrictToRange(x);
-		float section = (x - getInputStart()) * ratioResolutionToInput;
+//	public float get(float x) {
+//		x = input.normalize(x);
+//		return output.deNormalize(getNorm(x));
+//	}
+//
+	float getNorm(float x) {
+		float section = x * resolution;
 		int i = (int) section;
-		float result = nodes[i] + (section % 1) * (nodes[i + 1] - nodes[i]);
-		return output.restrictToRange(result); 
+		return nodes[i] + (section % 1) * (nodes[i + 1] - nodes[i]);
 	}
 
 	private void build(ComplexMap map, int resolution) {
@@ -48,7 +53,7 @@ class Graph extends Map {
 
 		for (int i = 0; i <= resolution; i++) {
 			float x = (float) i / resolution;
-			nodes[i] = map.get(x);
+			nodes[i] = map.getNorm(x);
 		}
 		nodes[nodes.length - 1] = nodes[nodes.length - 2];
 
@@ -67,26 +72,25 @@ class Graph extends Map {
 			}
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		String str = "Graph:\n";
 		str += getNodesAsString(5);
 		str += " resolution: " + resolution + " straight lines\n";
-		str +=  " min-max: " + min + " - " + max + "\n";
+		str += " min-max: " + min + " - " + max + "\n";
 		str += super.toString();
 		return str;
 	}
-	
+
 	private String getNodesAsString(int numNodes) {
 		String str = "";
-		float step = (float)(resolution + 1) / (float)(numNodes - 1); 
+		float step = (float) (resolution + 1) / (float) (numNodes - 1);
 		for (int i = 0; i < numNodes; i++) {
 			int index = (int) (i * step);
-			str += " node[" + index + "]:\t" + nodes[index] + "\n"; 
+			str += " node[" + index + "]:\t" + nodes[index] + "\n";
 		}
 		return str;
 	}
-	
-	
+
 }

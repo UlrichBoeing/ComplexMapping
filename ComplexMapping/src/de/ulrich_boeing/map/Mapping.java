@@ -35,6 +35,7 @@ class Mapping {
 		}
 	}
 
+	// TODO: map() get() and getNorm() -> to many names!
 	protected float map(float x) {
 		for (Step step : steps) {
 			x = step.map(x);
