@@ -15,10 +15,10 @@ class ComplexMap extends Map {
 
 	ComplexMap(String str) {
 		super();
-		set(str);
+		build(str);
 	}
 
-	private void set(String str) {
+	void build(String str) {
 		str = prepareString(str);
 		String[] arr = str.split("\\s*&\\s*");
 
@@ -30,10 +30,11 @@ class ComplexMap extends Map {
 		}
 	}
 
-	float getNorm(float x) {
+	@Override
+	float normMap(float x) {
 		float sum = 0;
 		for (Mapping mapping : mappings) {
-			sum += mapping.map(x);
+			sum += mapping.normMap(x);
 		}
 		return sum / sumWeight;
 		

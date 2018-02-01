@@ -1,16 +1,22 @@
 package de.ulrich_boeing.map;
 
 public class Range {
+	public enum RepeatRange {
+		No, Min, Max, Both
+	};
+
 	private float start;
 	private float end;
 	private float range;
 	private float min;
 	private float max;
-
+	
+	RepeatRange repeat;
 	public static ErrorAction onExceedRange;
 
 	public Range(float start, float end) {
 		set(start, end);
+		repeat = RepeatRange.Both;
 		// onExceedRange = ErrorAction.ErrorMsg;
 	}
 
@@ -26,29 +32,36 @@ public class Range {
 		return (this.start == start && this.end == end);
 	}
 
-	float restrictToRange(float x) {
+
+	float checkRange(float x) {
 		if (x < min) {
 			errorHandling(x);
-			int n = (int) ((min - x) / Math.abs(range)) + 1;
-			x += n * Math.abs(range);
-//			 x = min;
+			if (repeat == RepeatRange.Both || repeat == RepeatRange.Min ) {
+				int n = (int) ((min - x) / Math.abs(range)) + 1;
+				x += n * Math.abs(range);
+			} else {
+				x = min;
+			}
 		} else if (x > max) {
 			errorHandling(x);
-			int n = (int) ((x - max) / Math.abs(range)) + 1;
-			x -= n * Math.abs(range);
-//			 x = max;
+			if (repeat == RepeatRange.Both || repeat == RepeatRange.Max ) {
+				int n = (int) ((x - max) / Math.abs(range)) + 1;
+				x -= n * Math.abs(range); 
+			} else {
+				x =  max;
+			}
 		}
 		return x;
 	}
 
 	public float normalize(float x) {
-		x = restrictToRange(x);
+		x = checkRange(x);
 		return (x - start) / range;
 	}
 
 	public float deNormalize(float x) {
 		x = start + x * range;
-		return restrictToRange(x);
+		return checkRange(x);
 	}
 
 	public float getStart() {

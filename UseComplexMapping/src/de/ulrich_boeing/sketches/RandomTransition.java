@@ -1,13 +1,14 @@
 package de.ulrich_boeing.sketches;
 
-import de.ulrich_boeing.map.*;
+import de.ulrich_boeing.map.Map;
 import de.ulrich_boeing.map.MapGenerator;
 import de.ulrich_boeing.map.Precision;
+import de.ulrich_boeing.map.Range.RepeatRange;
 import processing.core.PApplet;
 
 public class RandomTransition extends PApplet {
 	int cycleLength = 90;
-	Map map, colorMap, cycleMap;
+	Map map, cycleText, colorMap, cycleMap;
 	String start, end;
 	MapGenerator mapGenerator;
 
@@ -22,11 +23,10 @@ public class RandomTransition extends PApplet {
 
 	@Override
 	public void setup() {
-		Map rangeMap = Map.create("x").setRange(10, 0, 0, 100);
-		System.out.println(rangeMap.get(-11));
 		map = getRandomMap();
 
-		cycleMap = Map.create("narrow 0.0, 0.5 > exp 3", Precision.VeryHigh).setRange(0, cycleLength, 0, 1);
+		cycleMap = Map.create("narrow 0.0, 0.4 > exp 3").setRange(0, cycleLength, 0, 1);
+		cycleText = Map.create(" narrow 0.4 0.99 > triangle").setRange(0, cycleLength, 0, 255);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class RandomTransition extends PApplet {
 
 		float normCyclePos = getNormCyclePos();
 		for (int i = 0; i < height; i++) {
-			stroke(map.get(i, normCyclePos) / 18, 0, map.get(i, normCyclePos) / 7);
+			stroke(map.map(i, normCyclePos) / 18, 0, map.map(i, normCyclePos) / 7);
 			line(0, i, width, i);
 		}
 
@@ -51,7 +51,7 @@ public class RandomTransition extends PApplet {
 		// textAlign(CENTER);
 		// text(end, width / 2, height / 2);
 		textSize(16);
-		fill(255, 255, 255, normCyclePos * 200 + 55);
+		fill(255, 255, 255, cycleText.map(frameCount));
 		textAlign(CENTER);
 		text(end, width / 2, height - 20);
 
@@ -60,14 +60,14 @@ public class RandomTransition extends PApplet {
 	private void drawGraph(float normCyclePos) {
 		beginShape();
 		for (float x = 0; x < width; x++) {
-			vertex(x, map.get(x, normCyclePos));
+			vertex(x, map.map(x, normCyclePos));
 		}
 		endShape();
 	}
 
 	private void fillGraph(float normCyclePos) {
 		for (float x = 0; x < width; x++) {
-			line(x, map.get(x, normCyclePos), x, 0);
+			line(x, map.map(x, normCyclePos), x, 0);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class RandomTransition extends PApplet {
 			map = getRandomMap();
 		}
 
-		return cycleMap.get(cyclePos);
+		return cycleMap.map(cyclePos);
 	}
 
 	private Map getRandomMap() {
@@ -89,12 +89,15 @@ public class RandomTransition extends PApplet {
 		}
 		start = end;
 		end = mapGenerator.getRandomDefString();
-		Map randomMap = Map.create(start, Precision.High).setRange(0, width, height - 50, 15).setTargetMap(end, Precision.High);
-
-		// System.out.println(randomMap.toString());
+//		end = "narrow 0.6 0.9 > triangle";
+//		start = end;
+		Map randomMap = Map.create(start).setTargetMap(end);
+		randomMap.setRange(0, width, height - 50, 15, RepeatRange.Min);
+		
+		System.out.println(randomMap.toString());
 
 		// System.out.println(randomMap.getDeviation(10000));
-		System.out.println("Performance new Graph:"); 
+		System.out.println("Performance new Graph:");
 		randomMap.getPerformance(1000000);
 
 		return randomMap;

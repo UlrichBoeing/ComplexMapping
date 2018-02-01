@@ -1,5 +1,7 @@
 package de.ulrich_boeing.map;
 
+import de.ulrich_boeing.map.Range.RepeatRange;
+
 /**
  * The class Map is the abstract base class of the classes ComplexMap and
  * Graph.<br>
@@ -26,9 +28,9 @@ abstract public class Map {
 		ratioRange = new Range(0, 1);
 	}
 
-	public float get(float x) {
+	public float map(float x) {
 		x = input.normalize(x);
-		return output.deNormalize(getNorm(x));
+		return output.deNormalize(normMap(x));
 	}
 
 	/**
@@ -40,7 +42,7 @@ abstract public class Map {
 	 *            The value to map.
 	 * @return The mapped value.
 	 */
-	abstract float getNorm(float x);
+	abstract float normMap(float x);
 
 	/**
 	 * Get the mapped value for x.
@@ -54,13 +56,13 @@ abstract public class Map {
 	 * @return The mapped value.
 	 */
 
-	public float get(float x, float ratio) {
-		float y1 = get(x);
+	public float map(float x, float ratio) {
+		float y1 = map(x);
 		if (targetMap == null) {
 			System.err.println("No targetMap defined, parameter ratio is ignored.");
 			return y1;
 		} else {
-			float y2 = targetMap.get(x);
+			float y2 = targetMap.map(x);
 			return y1 + ratioRange.normalize(ratio) * (y2 - y1);
 		}
 	}
@@ -147,6 +149,11 @@ abstract public class Map {
 		return this;
 	}
 	
+	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd, RepeatRange inputRepeat) {
+		input.repeat = inputRepeat;
+		return setRange(inputStart, inputEnd, outputStart, outputEnd);
+	}
+	
 	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd) {
 //		if (targetMap != null)
 //			targetMap.setRange(inputStart, inputEnd, outputStart, outputEnd);
@@ -178,8 +185,8 @@ abstract public class Map {
 			float sumDif = 0;
 			float step = input.getRange() / samples;
 			for (float x = getInputStart(); x <= getInputEnd(); x += step) {
-				float y1 = get(x);
-				float y2 = targetMap.get(x);
+				float y1 = map(x);
+				float y2 = targetMap.map(x);
 				float dif = Math.abs(y2 - y1);
 				sumDif += dif;
 				if (dif > maxDif) {
@@ -205,7 +212,7 @@ abstract public class Map {
 		float value = input.getStart() + input.getRange() / 2;
 		long start = System.nanoTime();
 		for (int i = 0; i <= iterations; i++) {
-			map.get(value);
+			map.map(value);
 		}
 		long end = System.nanoTime();
 		return end - start;

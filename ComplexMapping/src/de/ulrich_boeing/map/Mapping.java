@@ -5,10 +5,10 @@ class Mapping {
 	float weight;
 
 	Mapping(String str) {
-		set(str);
+		build(str);
 	}
 
-	private void set(String str) {
+	private void build(String str) {
 		String[] arr = str.split("\\s*>\\s*");
 
 		int countSteps = arr.length;
@@ -35,10 +35,10 @@ class Mapping {
 		}
 	}
 
-	// TODO: map() get() and getNorm() -> to many names!
-	protected float map(float x) {
+	
+	protected float normMap(float x) {
 		for (Step step : steps) {
-			x = step.map(x);
+			x = step.normMap(x);
 		}
 		return x;
 	}

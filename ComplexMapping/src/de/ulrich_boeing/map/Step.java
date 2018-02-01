@@ -5,10 +5,10 @@ class Step {
 	float[] p;
 
 	Step(String str) {
-		set(str);
+		build(str);
 	}
 
-	private void set(String str) {
+	private void build(String str) {
 		// e.g. "type value01, value 02"
 		String[] arr = str.split("[\\s,]+");
 
@@ -17,7 +17,7 @@ class Step {
 		p = type.evaluateParameter(p);
 	}
 
-	protected float map(float x) {
+	protected float normMap(float x) {
 		return type.calculate(x, p);
 	}
 

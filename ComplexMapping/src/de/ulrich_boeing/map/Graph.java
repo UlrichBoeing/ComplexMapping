@@ -4,7 +4,6 @@ class Graph extends Map {
 
 	private float[] nodes;
 	private int resolution;
-	// float ratioResolutionToInput;
 	static int defaultResolution = 200;
 
 	private float min, max;
@@ -20,27 +19,8 @@ class Graph extends Map {
 		// complexMap.output.getStart(), complexMap.output.getEnd());
 	}
 
-	// public Map setRange(float newInputStart, float newInputEnd, float
-	// newOutputStart, float newOutputEnd) {
-	// for (int i = 0; i < nodes.length; i++) {
-	// nodes[i] = output.normalize(nodes[i]);
-	// }
-	//
-	// super.setRange(newInputStart, newInputEnd, newOutputStart, newOutputEnd);
-	// ratioResolutionToInput = resolution / (newInputEnd - newInputStart);
-	//
-	// for (int i = 0; i < nodes.length; i++) {
-	// nodes[i] = output.deNormalize(nodes[i]);
-	// }
-	// return this;
-	// }
-
-//	public float get(float x) {
-//		x = input.normalize(x);
-//		return output.deNormalize(getNorm(x));
-//	}
-//
-	float getNorm(float x) {
+	@Override
+	float normMap(float x) {
 		float section = x * resolution;
 		int i = (int) section;
 		return nodes[i] + (section % 1) * (nodes[i + 1] - nodes[i]);
@@ -53,7 +33,7 @@ class Graph extends Map {
 
 		for (int i = 0; i <= resolution; i++) {
 			float x = (float) i / resolution;
-			nodes[i] = map.getNorm(x);
+			nodes[i] = map.normMap(x);
 		}
 		nodes[nodes.length - 1] = nodes[nodes.length - 2];
 
