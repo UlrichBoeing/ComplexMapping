@@ -7,7 +7,7 @@ import de.ulrich_boeing.map.Range.RepeatRange;
 import processing.core.PApplet;
 
 public class RandomTransition extends PApplet {
-	int cycleLength = 90;
+	int cycleLength = 80;
 	Map map, cycleText, colorMap, cycleMap;
 	String start, end;
 	MapGenerator mapGenerator;
@@ -25,7 +25,7 @@ public class RandomTransition extends PApplet {
 	public void setup() {
 		map = getRandomMap();
 
-		cycleMap = Map.create("narrow 0.0, 0.4 > exp 3").setRange(0, cycleLength, 0, 1);
+		cycleMap = Map.create("narrow 0.0, 0.5 > exp 4").setRange(0, cycleLength, 0, 1);
 		cycleText = Map.create(" narrow 0.4 0.99 > triangle").setRange(0, cycleLength, 0, 255);
 	}
 
@@ -89,9 +89,9 @@ public class RandomTransition extends PApplet {
 		}
 		start = end;
 		end = mapGenerator.getRandomDefString();
-//		end = "narrow 0.6 0.9 > triangle";
+//		end = "triangle > invert > exp -3";
 //		start = end;
-		Map randomMap = Map.create(start).setTargetMap(end);
+		Map randomMap = Map.create(start, Precision.Highest).setTargetMap(end, Precision.Highest);
 		randomMap.setRange(0, width, height - 50, 15, RepeatRange.Min);
 		
 		System.out.println(randomMap.toString());

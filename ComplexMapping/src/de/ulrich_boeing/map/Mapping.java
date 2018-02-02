@@ -1,5 +1,14 @@
 package de.ulrich_boeing.map;
 
+/**
+ * The class Mapping is a sequence of steps,
+ * the output of one step is the input of the subsequent step.<br>
+ * A Mapping is built with a string in the form "triangle > invert > exp 3".<br><br>
+ * 
+ *  If more than one mapping is combined in a ComplexMap weight is needed.<br>
+ * Input for the normMap method must be between 0-1 and so must be output.
+ *
+ */
 class Mapping {
 	Step[] steps;
 	float weight;
@@ -34,7 +43,6 @@ class Mapping {
 
 		}
 	}
-
 	
 	protected float normMap(float x) {
 		for (Step step : steps) {

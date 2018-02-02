@@ -13,7 +13,7 @@ public class MapGenerator {
 
 	private void initParameter() {
 		exclude = asList(StepType.x, StepType.constant, StepType.weight, StepType.random, StepType.squarerandom);
-		maxSteps = 1;
+		maxSteps = 5;
 		numSteps = (int) (Math.random() * maxSteps) + 1;
 		probabilityAnd = 4;
 	}

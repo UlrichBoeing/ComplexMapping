@@ -1,5 +1,12 @@
 package de.ulrich_boeing.map;
 
+/**
+ * The Step class holds a single step like "x", "invert" or "sin".<br> 
+ * The array p stands for parameter, each step can have zero, one or more parameter.
+ * Parameters can be separated by whitespace or comma.<br><br>
+ * 
+ * Input for the normMap method must be between 0-1 and so must be output.
+ */
 class Step {
 	StepType type;
 	float[] p;
@@ -34,6 +41,7 @@ class Step {
 
 		float[] parameter = new float[type.parameterNeeded];
 		for (int i = 0; i < parameter.length; i++) {
+			// if a parameter is not given in the string array use default parameter
 			if (i + 1 < arr.length) {
 				parameter[i] = parseParameter(arr[i + 1]);
 			} else {
