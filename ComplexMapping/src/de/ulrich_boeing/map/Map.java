@@ -68,7 +68,7 @@ abstract public class Map {
 	}
 
 	/**
-	 * Creates a map whose type is automatically detected.
+	 * Creates a map whose precision and therefore type is automatically detected.
 	 * 
 	 * @param str
 	 *            The map-defining string
