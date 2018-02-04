@@ -1,10 +1,20 @@
 package de.ulrich_boeing.map;
 
+/**
+ * A Graph stores the normalized results of a ComplexMap in an array. <br>
+ * These values (evenly spaced on the x-axis) are connected by straight lines to
+ * approximate the values of the curve.
+ * 
+ * <br>
+ * 
+ * @author Ulrich Böing
+ *
+ */
 class Graph extends Map {
 
 	private float[] nodes;
 	private int resolution;
-	static int defaultResolution = 200;
+	static Precision defaultPrecision = Precision.High;
 
 	private float min, max;
 
@@ -15,19 +25,14 @@ class Graph extends Map {
 	Graph(ComplexMap complexMap, int resolution) {
 		super();
 		build(complexMap, resolution);
-		// setRange(complexMap.input.getStart(), complexMap.input.getEnd(),
-		// complexMap.output.getStart(), complexMap.output.getEnd());
-	}
-
-	@Override
-	float normMap(float x) {
-		float section = x * resolution;
-		int i = (int) section;
-		return nodes[i] + (section % 1) * (nodes[i + 1] - nodes[i]);
 	}
 
 	private void build(ComplexMap map, int resolution) {
-		// if the last node i is accessed, Graph.get needs node i+1
+		/*
+		 * (resolution + 1) nodes are connected by resolution lines. If the last node is
+		 * accessed (x == 1), Graph.normMap() needs nodes[resolution + 2]. The value of
+		 * nodes[resolution + 2] doesn't have any effect because in this case (section % 1) == 0
+		 */
 		nodes = new float[resolution + 2];
 		this.resolution = resolution;
 
@@ -38,6 +43,15 @@ class Graph extends Map {
 		nodes[nodes.length - 1] = nodes[nodes.length - 2];
 
 		setMinMax();
+	}
+
+	@Override
+	float normMap(float x) {
+		// section is the number of the line, (section % 1) is the x-position on that
+		// line
+		float section = x * resolution;
+		int i = (int) section;
+		return nodes[i] + (section % 1) * (nodes[i + 1] - nodes[i]);
 	}
 
 	private void setMinMax() {

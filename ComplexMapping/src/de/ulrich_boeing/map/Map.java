@@ -15,7 +15,7 @@ import de.ulrich_boeing.map.Range.RepeatRange;
 
 abstract public class Map {
 	private Map targetMap;
-	Range input, output, ratioRange;
+	private Range input, output, ratioRange;
 
 	/**
 	 * The Map constructor is only called by the ComplexMap and Graph
@@ -28,20 +28,19 @@ abstract public class Map {
 		ratioRange = new Range(0, 1);
 	}
 
-	public float map(float x) {
-		x = input.normalize(x);
-		return output.deNormalize(normMap(x));
-	}
-
 	/**
 	 * Get the mapped value for x.<br>
-	 * Input and output is normalized.
-	 * (An abstract method overwritten in ComplexMap and Graph.)
 	 * 
 	 * @param x
 	 *            The value to map.
 	 * @return The mapped value.
 	 */
+	public float map(float x) {
+		x = input.normalize(x);
+		return output.deNormalize(normMap(x));
+	}
+
+	// An abstract method overwritten in ComplexMap and Graph.
 	abstract float normMap(float x);
 
 	/**
@@ -50,12 +49,13 @@ abstract public class Map {
 	 * @param x
 	 *            The value to map.
 	 * @param ratio
-	 *            The ratio between main and target map.<br>
-	 *            (0 -> Map.get(x) <br>
-	 *            1 -> targetMap.get(x))
+	 *            The ratio between main and target map.
+	 *            <ul>
+	 *            <li>0 -> Map.map(x)</li>
+	 *            <li>1 -> targetMap.map(x))</li>
+	 *            </ul>
 	 * @return The mapped value.
 	 */
-
 	public float map(float x, float ratio) {
 		float y1 = map(x);
 		if (targetMap == null) {
@@ -76,10 +76,11 @@ abstract public class Map {
 	 */
 	public static Map create(String str) {
 		ComplexMap complexMap = new ComplexMap(str);
+		// if calculation of the ComplexMap is faster than the calculation of the Graph
 		if (complexMap.isFast()) {
 			return complexMap;
 		} else {
-			return create(complexMap, Precision.High);
+			return create(complexMap, Graph.defaultPrecision);
 		}
 	}
 
@@ -143,24 +144,19 @@ abstract public class Map {
 		return this;
 	}
 
-	private Map setRange(Range input, Range output) {
+	private void setRange(Range input, Range output) {
 		this.input = input;
 		this.output = output;
-		return this;
 	}
-	
+
 	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd, RepeatRange inputRepeat) {
 		input.repeat = inputRepeat;
 		return setRange(inputStart, inputEnd, outputStart, outputEnd);
 	}
-	
-	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd) {
-//		if (targetMap != null)
-//			targetMap.setRange(inputStart, inputEnd, outputStart, outputEnd);
 
+	public Map setRange(float inputStart, float inputEnd, float outputStart, float outputEnd) {
 		input.set(inputStart, inputEnd);
 		output.set(outputStart, outputEnd);
-
 		return this;
 	};
 
@@ -217,7 +213,7 @@ abstract public class Map {
 		long end = System.nanoTime();
 		return end - start;
 	}
-	
+
 	@Override
 	public String toString() {
 		String str = " input: " + input.toString() + "\n";
@@ -227,5 +223,5 @@ abstract public class Map {
 		}
 		return str;
 	}
-	
+
 }
