@@ -220,6 +220,12 @@ abstract public class Map {
 		}
 	}
 
+	/**
+	 * Gets the performance of a single map.
+	 * @param map The map to measure.
+	 * @param iterations The number of calculations to perform.
+	 * @return The execution time in nanoseconds.
+	 */
 	private long getMapPerformance(Map map, int iterations) {
 		float value = input.getStart() + input.getRange() / 2;
 		long start = System.nanoTime();
