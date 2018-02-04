@@ -173,6 +173,16 @@ abstract public class Map {
 		return input.getEnd();
 	}
 
+	/**
+	 * Map.getDeviation() gets the deviation of values between map and
+	 * targetMap.<br>
+	 * It calculates n=samples values of map and targetMap, and detects the maximum
+	 * difference and calculates the average.
+	 * 
+	 * @param samples
+	 *            The number of values of map and targetMap that are retrieved.
+	 * @return A string containing the results.
+	 */
 	public String getDeviation(int samples) {
 		if (targetMap == null) {
 			return ("targetMap is necessary to calculate deviation.");
