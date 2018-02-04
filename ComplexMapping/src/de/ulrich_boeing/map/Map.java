@@ -206,6 +206,12 @@ abstract public class Map {
 		}
 	}
 
+	/**
+	 * Measures the performance of Map and targetMap and writes it to System.out
+	 * 
+	 * @param iterations
+	 *            The number of calculations to perform.
+	 */
 	public void getPerformance(int iterations) {
 		System.out.println("Elapsed time Map " + iterations + " : " + getMapPerformance(this, iterations) / 1000);
 		if (targetMap != null) {
