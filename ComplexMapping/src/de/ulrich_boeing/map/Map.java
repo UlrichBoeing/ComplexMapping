@@ -143,6 +143,10 @@ abstract public class Map {
 		targetMap.setRange(input, output);
 		return this;
 	}
+	
+	public boolean hasTargetMap() {
+		return (targetMap != null);
+	}
 
 	private void setRange(Range input, Range output) {
 		this.input = input;
